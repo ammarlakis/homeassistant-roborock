@@ -9,7 +9,13 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from roborock.version_1_apis import RoborockClientV1 as RoborockClient
 from roborock.version_1_apis import RoborockMqttClientV1 as RoborockMqttClient
-from roborock.containers import HomeDataRoom, MultiMapsList, RoborockBase
+from roborock.web_api import RoborockApiClient
+from roborock.containers import (
+    HomeDataRoom,
+    MultiMapsList,
+    RoborockBase,
+    UserData,
+)
 from roborock.exceptions import RoborockException
 
 from .const import DOMAIN
@@ -31,12 +37,16 @@ class RoborockDataUpdateCoordinator(
             client: RoborockClient,
             map_client: RoborockMqttClient,
             device_info: RoborockHassDeviceInfo,
-            rooms: list[HomeDataRoom]
+            rooms: list[HomeDataRoom],
+            cloud_api: RoborockApiClient,
+            user_data: UserData,
     ) -> None:
-        """Initialize."""
+        """Initialize coordinator with local, mqtt and cloud clients."""
         super().__init__(hass, _LOGGER, name=DOMAIN, update_interval=SCAN_INTERVAL)
         self.api = client
         self.map_api = map_client
+        self.cloud_api = cloud_api
+        self.user_data = user_data
         self.devices_maps: dict[str, MultiMapsList] = {}
         self.device_info = device_info
         self.rooms = rooms

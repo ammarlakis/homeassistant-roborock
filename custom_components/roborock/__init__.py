@@ -117,7 +117,13 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             else:
                 main_client = map_client
             data_coordinator = RoborockDataUpdateCoordinator(
-                hass, main_client, map_client, device_info, home_data.rooms
+                hass,
+                main_client,
+                map_client,
+                device_info,
+                home_data.rooms,
+                api_client,
+                user_data,
             )
             path = Path(hass.config.path(STORAGE_PATH.format(key=f"{DOMAIN}.{entry.entry_id}.{slugify(device_id)}")))
             devices_entry_data[device_id] = {

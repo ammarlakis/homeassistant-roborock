@@ -19,6 +19,7 @@ from .const import DOMAIN
 from .coordinator import RoborockDataUpdateCoordinator
 from .device import RoborockCoordinatedEntity
 from .roborock_typing import RoborockHassDeviceInfo
+from .scene_trigger import RoborockSceneTriggerButton
 
 
 @dataclass
@@ -82,7 +83,7 @@ async def async_setup_entry(
         config_entry.entry_id
     ]
 
-    entities: list[RoborockButtonEntity] = []
+    entities: list[ButtonEntity] = []
     for device_id, device_entry_data in domain_data.get("devices").items():
         coordinator = device_entry_data["coordinator"]
         device_info = coordinator.data
@@ -95,6 +96,14 @@ async def async_setup_entry(
                     description,
                 )
             )
+        # Add scene trigger button for this device
+        trigger_button = RoborockSceneTriggerButton(
+            f"scene_trigger_{slugify(device_id)}",
+            device_id,
+            device_info,
+            coordinator,
+        )
+        entities.append(trigger_button)
     async_add_entities(entities)
 
 
