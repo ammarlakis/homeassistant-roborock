@@ -39,7 +39,7 @@ class RoborockSceneSelectEntity(RoborockCoordinatedEntity, SelectEntity):
         self._scenes: list[dict[str, Any]] = []
         self._selected_scene_name: str | None = None
         self._attr_options: list[str] = []
-        self._attr_name = f"{device_info.device.name} Selected Scene"
+        self._attr_name = "Selected Scene"
         if not hasattr(self.coordinator, "selected_scenes"):
             self.coordinator.selected_scenes = {}
 
@@ -89,7 +89,7 @@ class RoborockSceneTriggerButton(RoborockCoordinatedEntity, ButtonEntity):
     ) -> None:
         super().__init__(device_info, coordinator, unique_id)
         self.device_id = device_id
-        self._attr_name = f"{device_info.device.name} Trigger Scene"
+        self._attr_name = "Trigger Scene"
 
     async def async_press(self) -> None:
         # Retrieve selection stored by the SceneSelect entity
