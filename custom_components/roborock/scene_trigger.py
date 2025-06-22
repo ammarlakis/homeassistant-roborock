@@ -136,13 +136,12 @@ async def async_setup_entry(
     for device_id, device_entry_data in domain_data.get("devices").items():
         coordinator: RoborockDataUpdateCoordinator = device_entry_data["coordinator"]
         device_info = coordinator.data
-        unique_id = slugify(device_info.device.name)
 
         scene_selector = RoborockSceneSelectEntity(
-            f"{unique_id}_selected_scene", device_id, device_info, coordinator
+            f"{slufigy(device_info.device.name)}_selected_scene", device_id, device_info, coordinator
         )
         trigger_button = RoborockSceneTriggerButton(
-            f"{unique_id}_trigger_scene", device_id, device_info, coordinator
+            f"{slufigy(device_info.device.name)}_trigger_scene", device_id, device_info, coordinator
         )
 
         entities.extend([scene_selector, trigger_button])

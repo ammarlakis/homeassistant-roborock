@@ -99,24 +99,6 @@ async def async_setup_entry(
             _LOGGER.warning("Failed setting up selects: No Roborock data")
     async_add_entities(entities)
 
-    # Create scene selector entities separately so they publish under 'select' domain
-    scene_entities: list[RoborockSceneSelectEntity] = []
-    for device_id, device_entry_data in domain_data.get("devices").items():
-        coordinator = device_entry_data["coordinator"]
-        device_info = coordinator.data
-        scene_entities.append(
-            RoborockSceneSelectEntity(
-                f"{slugify(device_info.device.name)}_selected_scene",
-                device_id,
-                device_info,
-                coordinator,
-            )
-        )
-
-    if scene_entities:
-        async_add_entities(scene_entities, update_before_add=False)
-
-
 class RoborockSelectEntity(RoborockCoordinatedEntity, SelectEntity):
     """A class to let you set options on a Roborock vacuum where the potential options are fixed."""
 

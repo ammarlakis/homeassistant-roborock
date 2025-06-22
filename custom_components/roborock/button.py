@@ -96,14 +96,6 @@ async def async_setup_entry(
                     description,
                 )
             )
-        # Add scene trigger button for this device
-        trigger_button = RoborockSceneTriggerButton(
-            f"{slugify(device_id)}_trigger_scene",
-            device_id,
-            device_info,
-            coordinator,
-        )
-        entities.append(trigger_button)
     async_add_entities(entities)
 
 
