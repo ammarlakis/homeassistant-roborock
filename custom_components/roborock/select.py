@@ -106,7 +106,7 @@ async def async_setup_entry(
         device_info = coordinator.data
         scene_entities.append(
             RoborockSceneSelectEntity(
-                f"{slugify(device_id)}_selected_scene",
+                f"{slugify(device_info.device.name)}_selected_scene",
                 device_id,
                 device_info,
                 coordinator,
